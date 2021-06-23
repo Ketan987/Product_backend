@@ -7,7 +7,8 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var productSchema = new mongoose_1.default.Schema({
     id: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
     },
     productName: {
         type: String,

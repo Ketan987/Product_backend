@@ -35,37 +35,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var productSchema_1 = __importDefault(require("../../model/productSchema"));
-exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                product = new productSchema_1.default(req.body);
-                return [4 /*yield*/, product.save()];
-            case 1:
-                _a.sent();
-                // console.log(product);
-                res.status(200).json({
-                    message: "product data added successfully",
-                    status: "success",
-                    data: product
-                });
-                return [3 /*break*/, 3];
-            case 2:
-                err_1 = _a.sent();
-                res.status(400).json({
-                    status: "failure",
-                    message: err_1.message,
-                    data: []
-                });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); });
+exports.FakeExpress = void 0;
+var FakeExpress = /** @class */ (function () {
+    function FakeExpress(request) {
+        var _this = this;
+        this.request = request;
+        this.responseData = '';
+        this.response = {
+            statusCode: 200,
+            status: jest.fn().mockImplementation(function (code) {
+                _this.response.statusCode = code;
+                return _this.response;
+            }),
+            json: jest.fn().mockImplementation(function (param) {
+                _this.responseData = param;
+                return _this.response;
+            }),
+            send: jest.fn().mockImplementation(function (data) {
+                console.log('send got', data);
+                _this.responseData = data;
+                return _this.response;
+            }),
+            cookie: jest.fn(),
+            clearCookie: jest.fn()
+        };
+    }
+    FakeExpress.prototype.handleRequest = function (fn) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fn(this.request, this.response)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    FakeExpress.prototype.get = function (fn) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.request.method = "GET";
+                        return [4 /*yield*/, fn(this.request, this.response)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    FakeExpress.prototype.post = function (fn) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.request.method = "POST";
+                        return [4 /*yield*/, fn(this.request, this.response)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return FakeExpress;
+}());
+exports.FakeExpress = FakeExpress;

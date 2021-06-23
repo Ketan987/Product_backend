@@ -14,8 +14,7 @@ export default async(req:any, res:any) => {
         res.status(400).json({
             status : "failure",
             message : "No Record Found",
-            data : []
-            
+            data : []   
         })
     }
 }

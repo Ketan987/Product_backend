@@ -39,33 +39,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var productSchema_1 = __importDefault(require("../../model/productSchema"));
-exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                product = new productSchema_1.default(req.body);
-                return [4 /*yield*/, product.save()];
-            case 1:
-                _a.sent();
-                // console.log(product);
-                res.status(200).json({
-                    message: "product data added successfully",
-                    status: "success",
-                    data: product
-                });
-                return [3 /*break*/, 3];
-            case 2:
-                err_1 = _a.sent();
-                res.status(400).json({
-                    status: "failure",
-                    message: err_1.message,
-                    data: []
-                });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
+var supertest_1 = __importDefault(require("supertest"));
+var productRoutes_1 = __importDefault(require("../../routes/productRoutes"));
+describe("All Routes testing", function () {
+    beforeAll(function () {
+        jest.setTimeout(30000);
     });
-}); });
+    describe("post product", function () {
+        it("given all data", function () { return __awaiter(void 0, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, supertest_1.default(productRoutes_1.default())
+                            .get("/products")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        it("when id is missing", function () { return __awaiter(void 0, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, supertest_1.default(productRoutes_1.default())
+                            .post("/products").send({
+                            productName: "Chainsaw"
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        expect(response.body.status).toBe(400);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+    });
+});

@@ -39,33 +39,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var productSchema_1 = __importDefault(require("../../model/productSchema"));
-exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+var userSchema_1 = __importDefault(require("../../model/userSchema"));
+var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                product = new productSchema_1.default(req.body);
-                return [4 /*yield*/, product.save()];
+                _b.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, userSchema_1.default.findOne({ email: req.body.email, password: req.body.password })];
             case 1:
-                _a.sent();
-                // console.log(product);
-                res.status(200).json({
-                    message: "product data added successfully",
-                    status: "success",
-                    data: product
+                user = _b.sent();
+                if (!user) {
+                    res.json({
+                        message: "failed"
+                    });
+                }
+                res.json({
+                    message: "success"
                 });
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
-                res.status(400).json({
-                    status: "failure",
-                    message: err_1.message,
-                    data: []
+                _a = _b.sent();
+                res.json({
+                    message: "failed"
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
-}); });
+}); };
