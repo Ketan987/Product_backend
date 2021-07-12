@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var productSchema_1 = __importDefault(require("../../model/productSchema"));
+var logger_1 = __importDefault(require("../../utils/logger"));
 exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var product, err_1;
     return __generator(this, function (_a) {
@@ -59,6 +60,7 @@ exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
+                logger_1.default.error(err_1.message);
                 res.status(400).json({
                     status: "failure",
                     message: err_1.message,

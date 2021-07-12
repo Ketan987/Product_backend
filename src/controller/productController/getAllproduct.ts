@@ -1,19 +1,21 @@
-import axios from 'axios';
 import productSchema from '../../model/productSchema';
+import logger from '../../utils/logger';
 
-export default async(req:any, res:any) => {
+export default async(request:any, response:any) => {
     try{
+        // console.log(request.params, request.body)
         let products = await productSchema.find()
-        res.status(200).json({
+        response.status(200).json({
             status : "success",
             message : "all product data",
             data : products
         })
     }
-    catch{
-        res.status(400).json({
+    catch(err){
+        logger.error(err.message)
+        response.json({
             status : "failure",
-            message : "No Record Found",
+            message : "No Record Found "+err.message,
             data : []   
         })
     }

@@ -4,6 +4,16 @@ import mongoose from "mongoose";
 import env from "dotenv";
 // import questionRouter from '../routes/question-router';
 import ProductRouter from '../routes/productRoutes';
+// import deleteByid from '../controller/productController/deleteByid';
+// import getAllproduct from '../controller/productController/getAllproduct';
+// import getProductbyid from '../controller/productController/getProductbyid';
+// import postProduct from '../controller/productController/postProduct';
+// import putByid from '../controller/productController/putByid';
+import * as request from '../controller/productController/index';
+import logger from "../utils/logger";
+import userRouter from "../routes/userRoutes";
+
+
 
 
 const configureEvironment=()=>{
@@ -21,9 +31,11 @@ function configureExpress() {
     const app = express();
     app.use(cors());
     app.use(express.json());
-    app.use('/api', ProductRouter());
+    app.use('/api', ProductRouter(request));
+    app.use('/api', userRouter());
     app.get("/", (req, res)=>{
-        res.send("Welcome to my server")
+        res.send("Welcome to my server");
+        logger.info("Server Sent basic Request");
     })
     return app;
 }

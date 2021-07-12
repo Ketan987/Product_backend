@@ -3,7 +3,7 @@ import productRouter from '../../routes/productRoutes';
 import getAllproduct from '../../controller/productController/getAllproduct'
 
 
-describe("All Routes testing", ()=>{
+describe.skip("All Routes testing", ()=>{
 
     beforeAll(()=>{
         jest.setTimeout(30000);
@@ -12,6 +12,7 @@ describe("All Routes testing", ()=>{
         it("given all data", async()=>{
             const response = await request(productRouter())
             .get("/products")
+            expect(response.body.status).toBe(200)
             
         });
 

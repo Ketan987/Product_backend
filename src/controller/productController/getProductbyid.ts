@@ -1,7 +1,9 @@
 import axios from 'axios';
 import productSchema from '../../model/productSchema';
+import logger from '../../utils/logger';
 
 export default async(req:any, res:any) => {
+    console.log(req.params.id);
     try{
         let product = await productSchema.findOne({id : req.params.id})
         res.status(200).json({
@@ -10,10 +12,11 @@ export default async(req:any, res:any) => {
             data : product
         })
     }
-    catch{
+    catch(err){
+        logger.error(err.message)
         res.status(400).json({
             status : "failure",
-            message : "No Record Found",
+            message : "No Record Found " + err.message,
             data : {}
             
         })

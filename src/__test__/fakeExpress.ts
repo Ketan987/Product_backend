@@ -41,5 +41,15 @@ export class FakeExpress {
         await fn(this.request, this.response);
     }
 
+    async delete(fn:Function) {
+        this.request.method = "DELETE";
+        await fn(this.request, this.response)
+    }
+
+    async put(fn:Function) {
+        this.request.method = "DELETE";
+        await fn(this.request, this.response)
+    }
+
 
 }

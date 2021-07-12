@@ -1,5 +1,6 @@
 import axios from 'axios';
 import productSchema from '../../model/productSchema';
+import logger from '../../utils/logger';
 
 export default async(req:any, res:any) => {
     try{
@@ -15,6 +16,7 @@ export default async(req:any, res:any) => {
         })
     }
     catch(err){
+        logger.error(err.message)
         res.status(400).json({
             status : "failure",
             message : err.message,

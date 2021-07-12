@@ -40,26 +40,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var productSchema_1 = __importDefault(require("../../model/productSchema"));
-exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var logger_1 = __importDefault(require("../../utils/logger"));
+exports.default = (function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    var products, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, productSchema_1.default.find()];
             case 1:
-                products = _b.sent();
-                res.status(200).json({
+                products = _a.sent();
+                response.status(200).json({
                     status: "success",
                     message: "all product data",
                     data: products
                 });
                 return [3 /*break*/, 3];
             case 2:
-                _a = _b.sent();
-                res.status(400).json({
+                err_1 = _a.sent();
+                logger_1.default.error(err_1.message);
+                response.json({
                     status: "failure",
-                    message: "No Record Found",
+                    message: "No Record Found " + err_1.message,
                     data: []
                 });
                 return [3 /*break*/, 3];

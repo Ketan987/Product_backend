@@ -40,20 +40,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var deleteByid_1 = __importDefault(require("../controller/productController/deleteByid"));
-var getAllproduct_1 = __importDefault(require("../controller/productController/getAllproduct"));
-var getProductbyid_1 = __importDefault(require("../controller/productController/getProductbyid"));
-var postProduct_1 = __importDefault(require("../controller/productController/postProduct"));
-var putByid_1 = __importDefault(require("../controller/productController/putByid"));
+// import deleteByid from '../controller/productController/deleteByid';
+// import getAllproduct from '../controller/productController/getAllproduct';
+// import getProductbyid from '../controller/productController/getProductbyid';
+// import postProduct from '../controller/productController/postProduct';
+// import putByid from '../controller/productController/putByid';
 var router = express_1.default.Router();
-function getRouter() {
+// const documents = {
+//     deleteByid,
+//     getAllproduct,
+//     getProductbyid,
+//     postProduct,
+//     putByid
+// }
+function getRouter(documents) {
     var _this = this;
     router
         .route("/products")
         .get(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getAllproduct_1.default(req, res)];
+                case 0: return [4 /*yield*/, documents.getAllproduct(req, res)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -63,7 +70,7 @@ function getRouter() {
         .post(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, postProduct_1.default(req, res)];
+                case 0: return [4 /*yield*/, documents.postProduct(req, res)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -75,7 +82,7 @@ function getRouter() {
         .get(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getProductbyid_1.default(req, res)];
+                case 0: return [4 /*yield*/, documents.getProductbyid(req, res)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -85,7 +92,7 @@ function getRouter() {
         .delete(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, deleteByid_1.default(req, res)];
+                case 0: return [4 /*yield*/, documents.deleteByid(req, res)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -95,7 +102,7 @@ function getRouter() {
         .put(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, putByid_1.default(req, res)];
+                case 0: return [4 /*yield*/, documents.putByid(req, res)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];

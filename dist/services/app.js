@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,6 +64,14 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var dotenv_1 = __importDefault(require("dotenv"));
 // import questionRouter from '../routes/question-router';
 var productRoutes_1 = __importDefault(require("../routes/productRoutes"));
+// import deleteByid from '../controller/productController/deleteByid';
+// import getAllproduct from '../controller/productController/getAllproduct';
+// import getProductbyid from '../controller/productController/getProductbyid';
+// import postProduct from '../controller/productController/postProduct';
+// import putByid from '../controller/productController/putByid';
+var request = __importStar(require("../controller/productController/index"));
+var logger_1 = __importDefault(require("../utils/logger"));
+var userRoutes_1 = __importDefault(require("../routes/userRoutes"));
 var configureEvironment = function () {
     dotenv_1.default.config();
 };
@@ -69,9 +96,11 @@ function configureExpress() {
     var app = express_1.default();
     app.use(cors_1.default());
     app.use(express_1.default.json());
-    app.use('/api', productRoutes_1.default());
+    app.use('/api', productRoutes_1.default(request));
+    app.use('/api', userRoutes_1.default());
     app.get("/", function (req, res) {
         res.send("Welcome to my server");
+        logger_1.default.info("Server Sent basic Request");
     });
     return app;
 }

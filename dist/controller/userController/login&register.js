@@ -39,27 +39,69 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.login = exports.register = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var userSchema_1 = __importDefault(require("../../model/userSchema"));
-var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+// const secret = process.env.jwt_token;
+var register = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 2, , 3]);
+                user = new userSchema_1.default(req.body);
+                return [4 /*yield*/, user.save()];
+            case 1:
+                _a.sent();
+                res.status(200).send(user);
+                return [3 /*break*/, 3];
+            case 2:
+                err_1 = _a.sent();
+                console.log(process.env.jwt_token);
+                res.status(400).send({
+                    message: "Error while saving " + err_1.message
+                });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.register = register;
+var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email_1, password_1, user, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 2, , 3]);
+                _a = req.body, email_1 = _a.email, password_1 = _a.password;
+                if (!email_1 || !password_1) {
+                    res.status(400).json({ message: "credential are not matched" });
+                }
                 return [4 /*yield*/, userSchema_1.default.findOne({ email: req.body.email, password: req.body.password })];
             case 1:
-                user = _b.sent();
+                user = _c.sent();
                 if (!user) {
                     res.json({
                         message: "failed"
                     });
                 }
-                res.json({
-                    message: "success"
+                // jwt sign
+                jsonwebtoken_1.default.sign({ email: email_1, password: password_1 }, "we8tewfhoer8ut89giuurbovperh8gpe9gjorgh", { expiresIn: "1d" }, function (err, token) {
+                    if (err) {
+                        res.status(404).send({ message: "token expired" });
+                    }
+                    else
+                        (res.status(200).send({
+                            email: email_1,
+                            password: password_1,
+                            token: token
+                        }));
                 });
                 return [3 /*break*/, 3];
             case 2:
-                _a = _b.sent();
+                _b = _c.sent();
                 res.json({
                     message: "failed"
                 });
@@ -68,3 +110,4 @@ var login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
         }
     });
 }); };
+exports.login = login;

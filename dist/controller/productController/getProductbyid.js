@@ -40,30 +40,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var productSchema_1 = __importDefault(require("../../model/productSchema"));
+var logger_1 = __importDefault(require("../../utils/logger"));
 exports.default = (function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var product, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, productSchema_1.default.findOne({ id: req.params.id })];
+                console.log(req.params.id);
+                _a.label = 1;
             case 1:
-                product = _b.sent();
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, productSchema_1.default.findOne({ id: req.params.id })];
+            case 2:
+                product = _a.sent();
                 res.status(200).json({
                     status: "success",
                     message: "product data by id",
                     data: product
                 });
-                return [3 /*break*/, 3];
-            case 2:
-                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                err_1 = _a.sent();
+                logger_1.default.error(err_1.message);
                 res.status(400).json({
                     status: "failure",
-                    message: "No Record Found",
+                    message: "No Record Found " + err_1.message,
                     data: {}
                 });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

@@ -101,6 +101,34 @@ var FakeExpress = /** @class */ (function () {
             });
         });
     };
+    FakeExpress.prototype.delete = function (fn) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.request.method = "DELETE";
+                        return [4 /*yield*/, fn(this.request, this.response)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    FakeExpress.prototype.put = function (fn) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.request.method = "DELETE";
+                        return [4 /*yield*/, fn(this.request, this.response)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return FakeExpress;
 }());
 exports.FakeExpress = FakeExpress;

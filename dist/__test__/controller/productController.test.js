@@ -39,7 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var getAllproduct_1 = __importDefault(require("../../controller/productController/getAllproduct"));
+var postProduct_1 = __importDefault(require("../../controller/productController/postProduct"));
 var getProductbyid_1 = __importDefault(require("../../controller/productController/getProductbyid"));
+var deleteByid_1 = __importDefault(require("../../controller/productController/deleteByid"));
+var putByid_1 = __importDefault(require("../../controller/productController/putByid"));
 var fakeExpress_1 = require("../fakeExpress");
 var productModel = {
     findOne: jest.fn(),
@@ -48,12 +52,12 @@ var productModel = {
     findOneAndUpdate: jest.fn(),
     findOneAndDelete: jest.fn()
 };
-describe("Movie Controller tests", function () {
+describe("Movie Controller tests for get all", function () {
     beforeEach(function () {
         jest.setTimeout(30000);
-        productModel.findOne.mockClear();
+        productModel.find.mockClear();
     });
-    it('should get if No record found', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('should get if record found', function () { return __awaiter(void 0, void 0, void 0, function () {
         var request, express;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -61,7 +65,28 @@ describe("Movie Controller tests", function () {
                     request = { params: { id: 1 } };
                     express = new fakeExpress_1.FakeExpress(request);
                     productModel.find.mockResolvedValue({
-                        id: 1,
+                        id: "1",
+                    });
+                    return [4 /*yield*/, express.handleRequest(getAllproduct_1.default)];
+                case 1:
+                    _a.sent();
+                    expect(express.response.statusCode).toBe(200);
+                    console.log('hela');
+                    console.log('express.responseData', express.responseData);
+                    expect(express.responseData.id).toStrictEqual(undefined);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("get by id", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var request, express;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    request = { params: { id: "1" } };
+                    express = new fakeExpress_1.FakeExpress(request);
+                    productModel.find.mockResolvedValue({
+                        id: "1",
                     });
                     return [4 /*yield*/, express.handleRequest(getProductbyid_1.default)];
                 case 1:
@@ -69,6 +94,63 @@ describe("Movie Controller tests", function () {
                     expect(express.response.statusCode).toBe(400);
                     console.log('express.responseData', express.responseData);
                     expect(express.responseData.id).toStrictEqual(undefined);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("put by id", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var request, express;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    request = { params: { id: "1" }, body: { price: 17.55, rating: 3.2 } };
+                    express = new fakeExpress_1.FakeExpress(request);
+                    return [4 /*yield*/, express.put(putByid_1.default)];
+                case 1:
+                    _a.sent();
+                    expect(express.response.statusCode).toBe(400);
+                    console.log('express.responseData', express.responseData);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("delete by id", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var request, express;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    request = { params: { id: "1" }, body: {} };
+                    express = new fakeExpress_1.FakeExpress(request);
+                    return [4 /*yield*/, express.delete(deleteByid_1.default)];
+                case 1:
+                    _a.sent();
+                    expect(express.response.statusCode).toBe(400);
+                    console.log('express.responseData', express.responseData);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("movie controller for post product", function () {
+    beforeEach(function () {
+        jest.setTimeout(30000);
+        productModel.create.mockClear();
+    });
+    it("if record is posted", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var request, express;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    request = { params: {}, body: {} };
+                    express = new fakeExpress_1.FakeExpress(request);
+                    productModel.create.mockResolvedValue({
+                        id: "1",
+                    });
+                    return [4 /*yield*/, express.handleRequest(postProduct_1.default)];
+                case 1:
+                    _a.sent();
+                    expect(express.response.statusCode).toBe(400);
+                    console.log('express.responseData', express.responseData);
                     return [2 /*return*/];
             }
         });
